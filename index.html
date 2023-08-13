@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Train Booking System</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="papaparse.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Train Booking System</h1>
+        </header>
+        <main id = 'main'>
+            <section class="booking-form">
+                <h2>Check Availability</h2>
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <label for="origin">Origin:</label>
+                        <select name="origin" id = "origin" size ="1">
+                            <option value="null">---</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                        </select>
+                    </div>
+                    <div class="flex-column flex-content">
+                        <label for="destination">Destination:</label>
+                        <select name="destination" id = "destination" size ="1">
+                            <option value="null">---</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <label for="date">Departure Date:</label>
+                        <input type="date" id="date" name="date" value = ''>
+                    </div>
+                </div>
+                
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <label for="passengers">Passengers:</label>
+                        <input type="number" id="passengers" name="passengers" min="1" value="1">
+                    </div>
+                    <div class="flex-column flex-content">
+                        <label for="class">Coach Class:</label>
+                        <select name="class" id = "class" size ="1">
+                            <option value="null">---</option>
+                            <option value="first">First</option>
+                            <option value="second">Second</option>
+                            <option value="third">Third</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button onclick="" id="clickme">Check</button>
+            </section>
+
+            <div id="result" style="display: none;">
+            </div>
+        </main>
+        <br><br>
+        <footer>
+            <p>&copy; SE IT C Group 31(21-25) IP Project</p>
+        </footer>
+        <script>
+            const loadButton = document.getElementById("clickme");
+            const outputDiv = document.getElementById("result");
+
+            const date = new Date();
+            let currentDay= String(date.getDate()).padStart(2, '0');
+            let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+            let currentYear = date.getFullYear();
+            let currentDate = '2023-08-14'//`${currentYear}-${currentMonth}-${currentDay}`;
+            document.getElementById('date').value = currentDate;
+
+            loadButton.addEventListener("click", async () => {
+                try {
+                    const response = await fetch("./trains-info.csv");
+                    const csvText = await response.text();
+                    
+                    Papa.parse(csvText, {
+                        complete: function(results) {
+                            const parsedData = results.data;
+                            displayData(parsedData);
+                        },
+                        header: true,
+                    });
+                } catch (error) {
+                    console.error("Error reading CSV:", error);
+                }
+            });
+
+            function displayData(data) {
+                var origin = document.getElementById('origin').value.toUpperCase();
+                var destination = document.getElementById('destination').value.toUpperCase();
+                var date = document.getElementById('date').value;
+                var passengers = document.getElementById('passengers').value;
+                var coachclass = document.getElementById('class').value;
+
+                if (origin == 'null' || destination == 'null' || coachclass == 'null'){
+                    outputDiv.innerHTML = 'Please enter all fields';
+                    return;
+                }
+                outputDiv.style.display = '';
+                outputDiv.innerHTML = '';
+                data.forEach(row =>{
+                    const rowDiv = document.createElement("div");
+                    const subRowDiv1 = document.createElement("div");
+                    const subRowDiv2 = document.createElement("div");
+                    //outputDiv.innerHTML = row['date']==date;
+                    var coachtemp = '';
+                    if(row["date"] == date && row['origin'] == origin && row['destination'] == destination){
+                        switch(coachclass){
+                            case 'first':
+                                coachtemp = '1st';
+                                break;
+                            case 'second':
+                                coachtemp = '2nd';
+                                break;
+                            case 'third':
+                                coachtemp = '3rd';
+                                break;
+                        }
+                        if(row[coachtemp] == 0 ){
+                            buylink = 'SOLD OUT';
+                        }
+                        else{
+                            trainnumber = row['trainnumber'];
+                            buylink = '<p id = \'buylink\' onclick = \"buy('+ trainnumber +',' + passengers +',\'' + coachtemp +'\')\" ><u>Book Now</u><p>';
+                            
+                        }
+                        subRowDiv1.innerHTML = 'Train Number: ' + row['trainnumber'] + '<br>Deprature Time: ' + row['departure-time'] + '<br>' + coachtemp + ' class available: ' + row[coachtemp] + "<br><br>"; 
+                        subRowDiv2.innerHTML = coachtemp + ' class cost: ' + row[coachtemp + 'cost'] + '<br>' + buylink;
+                        
+                        rowDiv.classList.add("rowDiv");
+                        subRowDiv1.classList.add("subRowDiv");
+                        subRowDiv2.classList.add("subRowDiv");
+                        rowDiv.appendChild(subRowDiv1);
+                        rowDiv.appendChild(subRowDiv2);
+                        outputDiv.appendChild(rowDiv);
+                    }
+                })
+            }
+
+            function buy(trainnumber,passengers,coachclass){
+                sessionStorage.setItem('coachclass', coachclass);
+                sessionStorage.setItem('trainnumber', trainnumber);
+                sessionStorage.setItem('passengers', passengers);
+                window.location.href = "details.html";
+            }
+        </script> 
+    </body>
+</html>
