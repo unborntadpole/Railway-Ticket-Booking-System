@@ -12,7 +12,7 @@
             <h1>Train Booking System</h1>
         </header>
         <main id = 'main'>
-            <section class="booking-form">
+            <section class="checking-window">
                 <h2>Check Availability</h2>
                 <div class="flex-row">
                     <div class="flex-column">
@@ -99,20 +99,21 @@
                 var date = document.getElementById('date').value;
                 var passengers = document.getElementById('passengers').value;
                 var coachclass = document.getElementById('class').value;
-
-                if (origin == 'null' || destination == 'null' || coachclass == 'null'){
-                    outputDiv.innerHTML = 'Please enter all fields';
+                outputDiv.style.display = '';
+                if (origin == 'NULL' || destination == 'NULL' || coachclass == 'NULL'){
+                    outputDiv.innerHTML = '<p id = "errorMessage">Please enter all fields</p>';
                     return;
                 }
-                outputDiv.style.display = '';
                 outputDiv.innerHTML = '';
+                let noOfResults = 0;
                 data.forEach(row =>{
                     const rowDiv = document.createElement("div");
                     const subRowDiv1 = document.createElement("div");
                     const subRowDiv2 = document.createElement("div");
-                    //outputDiv.innerHTML = row['date']==date;
                     var coachtemp = '';
                     if(row["date"] == date && row['origin'] == origin && row['destination'] == destination){
+                        
+                        noOfResults++;
                         switch(coachclass){
                             case 'first':
                                 coachtemp = '1st';
@@ -143,6 +144,9 @@
                         outputDiv.appendChild(rowDiv);
                     }
                 })
+                if(noOfResults == 0){
+                    outputDiv.innerHTML = '<p id = "errorMessage">No Trains Found!!</p>';
+                }
             }
 
             function buy(jnr,passengers,coachclass){

@@ -23,7 +23,7 @@
     margin: auto;
   }
   
-  .booking-form {
+  .checking-window {
     max-width: 400px;
     margin: 0 auto;
     background-color: #fff;
@@ -129,4 +129,10 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+  }
+
+  #errorMessage {
+    text-align: center;
+    margin: auto;
+    color: red;
   }

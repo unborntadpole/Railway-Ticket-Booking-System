@@ -3,12 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Passenger Details</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Confirm Passenger(s) Details</title>
 </head>
 <body>
-    <p id="p1"></p>
+    <header>
+        <h1>Train Booking System</h1>
+    </header>
+    <main id = 'main'>
+        <section class="checking-window">
+            <h2>Confirm Details</h2>
+            <div id = "inputdiv">
+
+            </div>
+            <button onclick="checkDetails()" id="clickme">Enter</button>
+        </section>
+        <div>
+            <br><br>
+            <p id="errorMessage" style="display: none;"></p>
+        </div>
+    </main>
+    <br><br>
+    <footer>
+        <p>&copy; SE IT C Group 31(21-25) IP Project</p>
+    </footer>
 <script>
-    document.getElementById('p1').innerHTML = sessionStorage.getItem('jnr') + '<br>' + sessionStorage.getItem('passengers') + '<br>' + sessionStorage.getItem('coachclass');
+    const passengers = sessionStorage.getItem('passengers');
+    window.onload = function() {
+            var inputdiv = document.getElementById("inputdiv");
+            for(let i = 1; i<=passengers; i++){
+                var pdiv = document.createElement("div");
+                var pdivlabel = document.createElement("label");
+                pdivlabel.textContent = 'Details of Passenger ' + i;
+                var nameLabel = document.createElement("label");
+                nameLabel.textContent = "Name:";
+                var nameInput = document.createElement("input");
+                nameInput.type = "text";
+                nameInput.value = "";
+                nameInput.id = "name" + i;
+
+                var ageLabel = document.createElement("label");
+                ageLabel.textContent = "Age:";
+                var ageInput = document.createElement("input");
+                ageInput.type = "number";
+                ageInput.id = "age" + i;
+
+                var genderLabel = document.createElement("label");
+                genderLabel.textContent = "Gender:";
+                var genderSelect = document.createElement("select");
+                genderSelect.id = "gender" + i;
+
+                var genderOptions = ["-choose-","Male", "Female", "Other"];
+                genderOptions.forEach(function(optionValue) {
+                    var option = document.createElement("option");
+                    option.value = optionValue.toLowerCase();
+                    option.textContent = optionValue;
+                    genderSelect.appendChild(option);
+                });
+
+                pdiv.appendChild(pdivlabel);
+                pdiv.appendChild(document.createElement("br"));
+                pdiv.appendChild(nameLabel);
+                pdiv.appendChild(nameInput);
+                pdiv.appendChild(document.createElement("br"));
+
+                pdiv.appendChild(ageLabel);
+                pdiv.appendChild(ageInput);
+                pdiv.appendChild(document.createElement("br"));
+
+                pdiv.appendChild(genderLabel);
+                pdiv.appendChild(genderSelect);
+                pdiv.appendChild(document.createElement("br"));
+                pdiv.appendChild(document.createElement("br"));
+
+                inputdiv.appendChild(pdiv);
+            }
+        };
+
+    function checkDetails() {
+        for(let i = 1; i<= passengers; i++){
+            name = document.getElementById('name' + i).value;
+            age = document.getElementById('age' + i).value;
+            gender = document.getElementById('gender' + i).value;
+            document.getElementById('errorMessage').innerHTML = document.getElementById('errorMessage').innerHTML + name;
+            if (name == ''|| age == '' || gender == '-choose-'){
+                document.getElementById('errorMessage').style.display = '';
+                document.getElementById('errorMessage').innerHTML = "Please enter all details";
+                document.getElementById('errorMessage').scrollIntoView();
+                return;
+            }
+            if (name.includes(';')||name.includes('|')){
+                document.getElementById('errorMessage').style.display = '';
+                document.getElementById('errorMessage').innerHTML = "Please enter valid details";
+                document.getElementById('errorMessage').scrollIntoView();
+                return;
+            }
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+        createString();
+    }
+    function createString() {
+        var condensedStr = '';
+        for(let i = 1; i <= passengers; i++ ){
+            if (condensedStr != ''){
+                condensedStr = condensedStr + '|';
+            }
+            colon = ';'
+            name = document.getElementById('name' + i).value;
+            age = document.getElementById('age' + i).value;
+            gender = document.getElementById('gender' + i).value;
+            condensedStr = condensedStr + i + colon + name + colon + age + colon + gender;
+        }
+        sessionStorage.setItem("passengerDetails",condensedStr);
+        window.location.href = "finaldetails.html";
+    }
 </script>
 </body>
 </html>
