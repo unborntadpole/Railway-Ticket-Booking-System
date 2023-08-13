@@ -100,14 +100,21 @@
     flex-direction: row;
     max-width: 400px;
     margin: auto;
+    border: solid 2px #007bff;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   } 
   
   .subRowDiv {
     display: flex;
     flex-direction: column;
+    margin: auto;
     margin-bottom: 20px;
     margin-top: 20px;
     width: 200px;
+    justify-content: center;
+    align-items: center;
   }
 
   #buylink {

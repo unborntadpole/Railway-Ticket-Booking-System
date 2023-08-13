@@ -125,11 +125,11 @@
                                 break;
                         }
                         if(row[coachtemp] == 0 ){
-                            buylink = 'SOLD OUT';
+                            buylink = '<p>SOLD OUT<p>';
                         }
                         else{
-                            trainnumber = row['trainnumber'];
-                            buylink = '<p id = \'buylink\' onclick = \"buy('+ trainnumber +',' + passengers +',\'' + coachtemp +'\')\" ><u>Book Now</u><p>';
+                            jnr = row['jnr'];
+                            buylink = '<p id = \'buylink\' onclick = \"buy('+ jnr +',' + passengers +',\'' + coachtemp +'\')\" ><u>Book Now</u><p>';
                             
                         }
                         subRowDiv1.innerHTML = 'Train Number: ' + row['trainnumber'] + '<br>Deprature Time: ' + row['departure-time'] + '<br>' + coachtemp + ' class available: ' + row[coachtemp] + "<br><br>"; 
@@ -145,9 +145,9 @@
                 })
             }
 
-            function buy(trainnumber,passengers,coachclass){
+            function buy(jnr,passengers,coachclass){
                 sessionStorage.setItem('coachclass', coachclass);
-                sessionStorage.setItem('trainnumber', trainnumber);
+                sessionStorage.setItem('jnr', jnr);
                 sessionStorage.setItem('passengers', passengers);
                 window.location.href = "details.html";
             }
