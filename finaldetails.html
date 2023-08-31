@@ -25,21 +25,21 @@
                 var details = passengers[i].split(';')
                 outputContainer.innerHTML = outputContainer.innerHTML + '<br><br>'
                 var newPassenger = document.createElement('div');
-                for (var i = 0; i < details.length; i++) {
-                    var newParagraph = document.createElement('p');
+                for (var j = 0; j < details.length; j++) {
+                    var newParagraph = document.createElement('div');
                     var tempstring = ''
-                    switch(i){
+                    switch(j){
                         case 0: 
-                            tempstring = '<p>Passenger ' + details[i] + '</p>';
+                            tempstring = '<p>Passenger ' + details[j] + '</p>';
                             break;
                         case 1:
-                            tempstring = '<p>Name: ' + details[i] + '</p>';
+                            tempstring = '<p>Name: ' + details[j] + '</p>';
                             break;
-                        case 2: 
-                            tempstring = '<p>Age: ' + details[i] + '</p>';
+                        case 2:
+                            tempstring = '<p>Age: ' + details[j] + '</p>';
                             break;
                         case 3:
-                            tempstring = '<p>Gender: ' + details[i] + '</p>';
+                            tempstring = '<p>Gender: ' + details[j] + '</p>';
                             break;
                     }
                     newParagraph.innerHTML = tempstring;
@@ -56,15 +56,16 @@
         var origin = sessionStorage.getItem('origin');
         var destination = sessionStorage.getItem('destination');
         var dtime = sessionStorage.getItem('dtime');
+        var date = sessionStorage.getItem('dateofjourney');
         var tempstring = '<p>Journey Number: '+ jnr + '</p>';
-        var tempstring = tempstring + '<p>Train Number: '+ tnr + '</p>';
-        var tempstring = tempstring + '<p>Origin: '+ origin + '</p>';
-        var tempstring = tempstring + '<p>Destination: '+ destination + '</p>';
-        var tempstring = tempstring + '<p>Departure Time: '+ dtime + '</p>';
-        var tempstring = tempstring + '<p>Coach Class: '+ coachclass + '</p>';
+        tempstring = tempstring + '<p>Train Number: '+ tnr + '</p>';
+        tempstring = tempstring + '<p>Origin: '+ origin + '</p>';
+        tempstring = tempstring + '<p>Destination: '+ destination + '</p>';
+        tempstring = tempstring + '<p>Date of Departure: '+ date + '</p>';
+        tempstring = tempstring + '<p>Time of Departure: '+ dtime + ' hours</p>';
+        tempstring = tempstring + '<p>Coach Class: '+ coachclass + '</p>' //+ sessionStorage.getItem('passengerDetails');
         document.getElementById('journey-details').innerHTML = tempstring;
         splitAndDisplay();
-        //sessionStorage.getItem('coachclass');sessionStorage.getItem('jnr');sessionStorage.gettItem('passengers');
-    </script>
+        </script>
 </body>
 </html>
