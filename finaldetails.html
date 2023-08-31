@@ -3,13 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ticket</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p id = "test"></p>
+    <div> <br><br><br></div>
+    <div class="main checking-window" style="width: 300px;">
+        <div>
+            <p id="journey-details"></p>
+        </div>
+        <div id="outputContainer"></div>
+    </div>
+    <script>
+        function splitAndDisplay() {
+            var inputString = sessionStorage.getItem('passengerDetails');
+            var passengers = inputString.split('|');
+            var outputContainer = document.getElementById('outputContainer');
+            outputContainer.innerHTML = '';
+
+            for (var i = 0; i < passengers.length; i++) {
+                var details = passengers[i].split(';')
+                outputContainer.innerHTML = outputContainer.innerHTML + '<br><br>'
+                var newPassenger = document.createElement('div');
+                for (var i = 0; i < details.length; i++) {
+                    var newParagraph = document.createElement('p');
+                    var tempstring = ''
+                    switch(i){
+                        case 0: 
+                            tempstring = '<p>Passenger ' + details[i] + '</p>';
+                            break;
+                        case 1:
+                            tempstring = '<p>Name: ' + details[i] + '</p>';
+                            break;
+                        case 2: 
+                            tempstring = '<p>Age: ' + details[i] + '</p>';
+                            break;
+                        case 3:
+                            tempstring = '<p>Gender: ' + details[i] + '</p>';
+                            break;
+                    }
+                    newParagraph.innerHTML = tempstring;
+                    newPassenger.appendChild(newParagraph);
+                }
+                outputContainer.appendChild(newPassenger);
+            }
+        }
+        var journeyDetails = document.getElementById("journey-details")
+        var jnr = sessionStorage.getItem('jnr')
+        var coachclass = sessionStorage.getItem('coachclass')
+        var jnr = sessionStorage.getItem('jnr');
+        var tnr = sessionStorage.getItem('tnr');
+        var origin = sessionStorage.getItem('origin');
+        var destination = sessionStorage.getItem('destination');
+        var dtime = sessionStorage.getItem('dtime');
+        var tempstring = '<p>Journey Number: '+ jnr + '</p>';
+        var tempstring = tempstring + '<p>Train Number: '+ tnr + '</p>';
+        var tempstring = tempstring + '<p>Origin: '+ origin + '</p>';
+        var tempstring = tempstring + '<p>Destination: '+ destination + '</p>';
+        var tempstring = tempstring + '<p>Departure Time: '+ dtime + '</p>';
+        var tempstring = tempstring + '<p>Coach Class: '+ coachclass + '</p>';
+        document.getElementById('journey-details').innerHTML = tempstring;
+        splitAndDisplay();
+        //sessionStorage.getItem('coachclass');sessionStorage.getItem('jnr');sessionStorage.gettItem('passengers');
+    </script>
 </body>
-<script>
-    //sessionStorage.getItem('coachclass');sessionStorage.getItem('jnr');sessionStorage.gettItem('passengers');
-    document.getElementById('test').textContent = sessionStorage.getItem('passengerDetails');
-</script>
 </html>

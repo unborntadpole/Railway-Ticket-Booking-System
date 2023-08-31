@@ -130,7 +130,7 @@
                         }
                         else{
                             jnr = row['jnr'];
-                            buylink = '<p id = \'buylink\' onclick = \"buy('+ jnr +',' + passengers +',\'' + coachtemp +'\')\" ><u>Book Now</u><p>';
+                            buylink = '<p id = \'buylink\' onclick = \"buy('+ jnr +',' + passengers +','+ row['departure-time'] + ', '+ row['trainnumber'] + ', \'' + coachtemp +'\', \''+ origin + '\', \''+ destination + '\')\" ><u>Book Now</u><p>';
                             
                         }
                         subRowDiv1.innerHTML = 'Train Number: ' + row['trainnumber'] + '<br>Deprature Time: ' + row['departure-time'] + '<br>' + coachtemp + ' class available: ' + row[coachtemp] + "<br><br>"; 
@@ -149,9 +149,13 @@
                 }
             }
 
-            function buy(jnr,passengers,coachclass){
+            function buy(jnr,passengers,departuretime, tnr, coachclass, origin, destination){
                 sessionStorage.setItem('coachclass', coachclass);
                 sessionStorage.setItem('jnr', jnr);
+                sessionStorage.setItem('tnr', tnr);
+                sessionStorage.setItem('origin', origin);
+                sessionStorage.setItem('destination', destination);
+                sessionStorage.setItem('dtime', departuretime);
                 sessionStorage.setItem('passengers', passengers);
                 window.location.href = "details.html";
             }
