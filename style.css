@@ -7,6 +7,10 @@
   body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
+    /* background:  #2980B9;  fallback for old browsers */
+    background: linear-gradient(to bottom right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-size: auto 200%;
+    background-repeat: no-repeat;
     background-color: #f2f2f2;
     color: #333;
   }
